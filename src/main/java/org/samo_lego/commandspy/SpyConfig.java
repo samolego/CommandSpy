@@ -13,13 +13,19 @@ public class SpyConfig {
     public static class MainConfig {
         // Whether player commands should be logged
         public boolean logPlayerCommands = true;
-        // Whether UUID should be appended to player's name
-        public boolean appendUUID = false;
+        // Message that is sent when player enters command
+        public String playerMessageStyle = "Player ${playername} (UUID: ${uuid}) used command: ${command}";
 
         // Whether commands executed by command blocks should be logged
         public boolean logCommandBlockCommands = true;
+        // Message that is sent when command from command block is executed
+        public String commandBlockMessageStyle = "Command block in: ${dimension} at X: ${x} Y: ${y} Z: ${z} executed command: ${command}";
     }
-    public static ArrayList<String> blacklistedCommands = new ArrayList<String>(Arrays.asList(
+
+    public MainConfig main = new MainConfig();
+    public ArrayList<String> blacklistedCommands = new ArrayList<>(Arrays.asList(
+            "msg",
+            // From SimpleAuth - ignore || delete those if you don't have the mod installed
             "login",
             "register",
             "changepw",
@@ -27,14 +33,15 @@ public class SpyConfig {
             "auth"
     ));
 
-    public MainConfig main = new MainConfig();
-
     // Logger and gson initalizing
     private static final Logger LOGGER = (Logger) LogManager.getLogger();
+
+    // GSON initializing with nice printing options :P
     private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .create();
 
+    // Loading config
     public static SpyConfig loadConfig(File file) {
         SpyConfig config;
 
@@ -53,6 +60,7 @@ public class SpyConfig {
         return config;
     }
 
+    // Saving config to path "file"
     private void save(File file) {
         try (FileWriter fileWriter = new FileWriter(file)) {
             gson.toJson(this, fileWriter);

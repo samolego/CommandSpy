@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinServerPlayNetworkHandler",
-    "MixinCommandBlock"
+    "MixinCommandBlockExecutor"
   ],
   "client": [],
   "injectors": {

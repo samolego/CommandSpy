@@ -1,16 +1,18 @@
 package org.samo_lego.commandspy.mixin;
 
-import net.minecraft.block.CommandBlock;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import org.apache.logging.log4j.core.lookup.StrSubstitutor;
 import org.samo_lego.commandspy.CommandSpy;
-import org.samo_lego.commandspy.SpyConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Mixin(ServerPlayNetworkHandler.class)
 public abstract class MixinServerPlayNetworkHandler {
@@ -27,12 +29,29 @@ public abstract class MixinServerPlayNetworkHandler {
 			)
 	)
 	private void onChatMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
-		String message = packet.getChatMessage();
 		boolean enabled = CommandSpy.config.main.logPlayerCommands;
+		String command = packet.getChatMessage();
 
-		if(enabled && message.startsWith("/")) {
-			boolean appendUUID = CommandSpy.config.main.appendUUID;
-			CommandSpy.LOGGER.info(player.getEntityName() + " used command: " + message);
+		if(enabled && command.startsWith("/") && CommandSpy.canSend(command)) {
+			// Message style from config
+			String message = CommandSpy.config.main.playerMessageStyle;
+
+			// Other info, later optionally appended to message
+			String playername = player.getEntityName();
+			String uuid = player.getUuidAsString();
+
+			// Saving those to hashmap for fancy printing with logger
+			Map<String, String> valuesMap = new HashMap<>();
+			valuesMap.put("playername", playername);
+			valuesMap.put("uuid", uuid);
+			valuesMap.put("command", command);
+
+			StrSubstitutor sub = new StrSubstitutor(valuesMap);
+			// Logging to console
+			CommandSpy.LOGGER.info(sub.replace(message));
+
+			// Clearing the left-over map
+			valuesMap.clear();
 		}
 	}
 }
