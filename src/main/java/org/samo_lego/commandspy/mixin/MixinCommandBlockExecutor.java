@@ -35,7 +35,7 @@ public abstract class MixinCommandBlockExecutor {
             String message = CommandSpy.config.main.commandBlockMessageStyle;
 
             // Getting other info
-            String dimension = Objects.requireNonNull(DimensionType.byRawId(world.getDimension().getType().getRawId())).toString(); // TODO - dimension name?
+            String dimension = Objects.requireNonNull(DimensionType.byRawId(world.getDimension().getType().getRawId())).toString();
             int x = (int) this.getSource().getPosition().getX();
             int y = (int) this.getSource().getPosition().getY();
             int z = (int) this.getSource().getPosition().getZ();
