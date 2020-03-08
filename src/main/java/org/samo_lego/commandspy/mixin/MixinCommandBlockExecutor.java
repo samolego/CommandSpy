@@ -3,6 +3,7 @@ package org.samo_lego.commandspy.mixin;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.CommandBlockExecutor;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import org.apache.logging.log4j.core.lookup.StrSubstitutor;
 import org.samo_lego.commandspy.CommandSpy;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 @Mixin(CommandBlockExecutor.class)
@@ -33,15 +35,15 @@ public abstract class MixinCommandBlockExecutor {
             String message = CommandSpy.config.main.commandBlockMessageStyle;
 
             // Getting other info
-            String dimension = world.getDimension().getType().getSuffix(); // TODO - dimension name?
+            String dimension = Objects.requireNonNull(DimensionType.byRawId(world.getDimension().getType().getRawId())).toString(); // TODO - dimension name?
             int x = (int) this.getSource().getPosition().getX();
             int y = (int) this.getSource().getPosition().getY();
             int z = (int) this.getSource().getPosition().getZ();
 
             // Saving those to hashmap for fancy printing with logger
             Map<String, String> valuesMap = new HashMap<>();
-            valuesMap.put("dimension", dimension);
-            valuesMap.put("command", dimension);
+            valuesMap.put("dimension", String.valueOf(dimension));
+            valuesMap.put("command", command);
             valuesMap.put("x", String.valueOf(x));
             valuesMap.put("y", String.valueOf(y));
             valuesMap.put("z", String.valueOf(z));
