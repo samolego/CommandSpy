@@ -21,7 +21,7 @@ public abstract class MixinServerPlayNetworkHandler {
 
 	// Injection for player chatting
 	@Inject(
-			method = "onChatMessage(Lnet/minecraft/network/packet/c2s/play/ChatMessageC2SPacket;)V",
+			method = "onGameMessage(Lnet/minecraft/network/packet/c2s/play/ChatMessageC2SPacket;)V",
 			at = @At(
 				value = "INVOKE",
 				target = "net/minecraft/network/NetworkThreadUtils.forceMainThread(Lnet/minecraft/network/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/server/world/ServerWorld;)V",
