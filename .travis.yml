@@ -15,9 +15,8 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-    
 deploy:
-  provider: pages
-  cleanup: true
-  github_token: $github_token
+  provider: pages:git
+  deploy_key: $github_token
   local_dir: build
+  cleanup: true
