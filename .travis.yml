@@ -21,3 +21,4 @@ deploy:
   token: $github_token
   local_dir: build/libs
   cleanup: false
+  edge: true
