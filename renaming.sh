@@ -18,7 +18,7 @@ echo "Cleaning old dev builds"
 ls ./build/libs -1tr | tail -n +10 | xargs rm -f
 
 # Setting the variables
-projectId="$(grep '"id":' src/main/resources/fabric.mod.json | sed 's/"id"://g;s/ //g;s/,//g;s/"//g')"
+projectId="$(grep 'archives_base_name' gradle.properties | sed 's/archives_base_name//g;s/ //g;s/=//g')"
 version="$(grep 'mod_version' gradle.properties | grep -o '[0-9]*\.[0-9]*\.[0-9]*')"
 mcVersion="$(grep 'minecraft_version' gradle.properties | sed 's/minecraft_version=//g;s/ //g;s/,//g;s/"//g')"
 

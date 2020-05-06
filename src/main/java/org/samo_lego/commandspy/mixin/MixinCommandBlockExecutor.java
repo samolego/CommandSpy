@@ -36,9 +36,9 @@ public abstract class MixinCommandBlockExecutor {
 
             // Getting other info
             String dimension = Objects.requireNonNull(DimensionType.byRawId(world.getDimension().getType().getRawId())).toString();
-            int x = (int) this.getSource().getPosition().getX();
+            double x = this.getSource().getPosition().getX();
             int y = (int) this.getSource().getPosition().getY();
-            int z = (int) this.getSource().getPosition().getZ();
+            double z = this.getSource().getPosition().getZ();
 
             // Saving those to hashmap for fancy printing with logger
             Map<String, String> valuesMap = new HashMap<>();
