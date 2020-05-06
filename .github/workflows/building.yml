@@ -34,7 +34,6 @@ jobs:
       
       # Publishing to dev-builds branch
     - name: GitHub Pages
-      if: success()
       uses: crazy-max/ghaction-github-pages@v1.4.0
       with:
         build_dir: build/libs
