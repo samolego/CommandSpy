@@ -5,7 +5,10 @@ import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,12 +28,7 @@ public class SpyConfig {
     public MainConfig main = new MainConfig();
     public ArrayList<String> blacklistedCommands = new ArrayList<>(Arrays.asList(
             "msg",
-            // From SimpleAuth - ignore || delete those if you don't have the mod installed
-            "login",
-            "register",
-            "changepw",
-            "unregister",
-            "auth"
+            "testCommandThatShouldNotBeLogged"
     ));
 
     // Logger and gson initalizing

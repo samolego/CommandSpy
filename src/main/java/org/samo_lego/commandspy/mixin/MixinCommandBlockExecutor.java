@@ -3,7 +3,6 @@ package org.samo_lego.commandspy.mixin;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.world.CommandBlockExecutor;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import org.apache.logging.log4j.core.lookup.StrSubstitutor;
 import org.samo_lego.commandspy.CommandSpy;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 @Mixin(CommandBlockExecutor.class)
@@ -35,10 +33,10 @@ public abstract class MixinCommandBlockExecutor {
             String message = CommandSpy.config.main.commandBlockMessageStyle;
 
             // Getting other info
-            String dimension = Objects.requireNonNull(DimensionType.byRawId(world.getDimension().getType().getRawId())).toString();
-            double x = this.getSource().getPosition().getX();
+            String dimension = world.getRegistryKey().getValue().toString();
+            int x = (int) (this.getSource().getPosition().getX() - 0.5);
             int y = (int) this.getSource().getPosition().getY();
-            double z = this.getSource().getPosition().getZ();
+            int z = (int) (this.getSource().getPosition().getZ() - 0.5);
 
             // Saving those to hashmap for fancy printing with logger
             Map<String, String> valuesMap = new HashMap<>();
