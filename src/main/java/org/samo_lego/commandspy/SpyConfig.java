@@ -14,14 +14,22 @@ import java.util.Arrays;
 
 public class SpyConfig {
     public static class MainConfig {
-        // Whether player commands should be logged
+        /**
+         * Whether player commands should be logged
+         */
         public boolean logPlayerCommands = true;
-        // Message that is sent when player enters command
+        /**
+         * Message that is sent when player enters command
+         */
         public String playerMessageStyle = "Player ${playername} (UUID: ${uuid}) used command: ${command}";
 
-        // Whether commands executed by command blocks should be logged
+        /**
+         * Whether commands executed by command blocks should be logged
+         */
         public boolean logCommandBlockCommands = true;
-        // Message that is sent when command from command block is executed
+        /**
+         * Message that is sent when command from command block is executed
+         */
         public String commandBlockMessageStyle = "Command block in: ${dimension} at X: ${x} Y: ${y} Z: ${z} executed command: ${command}";
     }
 
@@ -39,7 +47,11 @@ public class SpyConfig {
             .setPrettyPrinting()
             .create();
 
-    // Loading config
+    /**
+     * Loads config from specified file
+     * @param file config file
+     * @return config as SpyConfig object
+     */
     public static SpyConfig loadConfig(File file) {
         SpyConfig config;
 
@@ -58,7 +70,10 @@ public class SpyConfig {
         return config;
     }
 
-    // Saving config to path "file"
+    /**
+     * Saves config to provided path (file)
+     * @param file location where to save config
+     */
     private void save(File file) {
         try (FileWriter fileWriter = new FileWriter(file)) {
             gson.toJson(this, fileWriter);

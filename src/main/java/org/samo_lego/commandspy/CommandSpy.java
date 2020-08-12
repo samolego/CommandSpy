@@ -6,11 +6,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class CommandSpy implements ModInitializer {
 	public static final Logger LOGGER = (Logger) LogManager.getLogger();
 	public static SpyConfig config;
-	private static final File configDirectory = FabricLoader.getInstance().getConfigDirectory();
+	private static final Path configDirectory = FabricLoader.getInstance().getConfigDir();
 
 	@Override
 	public void onInitialize() {
@@ -20,6 +21,11 @@ public class CommandSpy implements ModInitializer {
 		config = SpyConfig.loadConfig(new File(configDirectory.toString() + "/CommandSpyConfig.json"));
 	}
 
+	/**
+	 * Determines whether command can be logged, depending on config
+	 * @param command command string
+	 * @return true if it can be logged, otherwise false
+	 */
 	public static  boolean canSend(String command) {
 		if(command.startsWith("/"))
 			command = command.substring(1);

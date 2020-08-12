@@ -6,13 +6,13 @@ Feeling like you need to have control over what commands players are using on yo
 
 Need to destroy that nasty repeating command block sending `/kill @e`?
 
-## Setup
+## Setup (for developers)
 
 1. Clone the repository.
 2. Run the following command:
 
 ```
-./gradlew genSources idea
+./gradlew genSources
 ```
 
 ## License
