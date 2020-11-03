@@ -32,7 +32,7 @@ public abstract class MixinServerPlayNetworkHandler {
 		boolean enabled = CommandSpy.config.main.logPlayerCommands;
 		String command = packet.getChatMessage();
 
-		if(enabled && command.startsWith("/") && CommandSpy.canSend(command)) {
+		if(enabled && command.startsWith("/") && CommandSpy.shouldLog(command)) {
 			// Message style from config
 			String message = CommandSpy.config.main.playerMessageStyle;
 

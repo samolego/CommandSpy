@@ -22,11 +22,11 @@ public class CommandSpy implements ModInitializer {
 	}
 
 	/**
-	 * Determines whether command can be logged, depending on config
+	 * Determines whether command should be logged, depending on config
 	 * @param command command string
-	 * @return true if it can be logged, otherwise false
+	 * @return true if it should be logged, otherwise false
 	 */
-	public static  boolean canSend(String command) {
+	public static  boolean shouldLog(String command) {
 		if(command.startsWith("/"))
 			command = command.substring(1);
 

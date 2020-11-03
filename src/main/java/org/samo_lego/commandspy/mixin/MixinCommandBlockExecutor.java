@@ -28,7 +28,7 @@ public abstract class MixinCommandBlockExecutor {
         boolean enabled = CommandSpy.config.main.logCommandBlockCommands;
         String command = this.getCommand();
 
-        if(enabled && CommandSpy.canSend(command)) {
+        if(enabled && CommandSpy.shouldLog(command)) {
             // Getting message style from config
             String message = CommandSpy.config.main.commandBlockMessageStyle;
 
