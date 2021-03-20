@@ -29,12 +29,12 @@ public class SignBlockEntityMixin {
             ),
             locals = LocalCapture.CAPTURE_FAILHARD
     )
-    private void catchSignCommand(PlayerEntity player, CallbackInfoReturnable<Boolean> cir, Text[] texts, int i, Text currentText, Style style, ClickEvent clickEvent) {
+    private void catchSignCommand(PlayerEntity player, CallbackInfoReturnable<Boolean> cir, Text[] texts, int i, int j, Style style, ClickEvent clickEvent) {
         if(config.logging.logSignCommands) {
             SignBlockEntity sign = (SignBlockEntity) (Object) this;
 
             // Getting message style from config
-            String message = CommandSpy.config.messages.commandBlockMessageStyle;
+            String message = CommandSpy.config.messages.signMessageStyle;
 
             // Getting other info
             String dimension = sign.getWorld().getRegistryKey().getValue().toString();
