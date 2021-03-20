@@ -13,27 +13,56 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SpyConfig {
-    public static class MainConfig {
+
+    public static class LogConfig {
         /**
-         * Whether player commands should be logged
+         * Whether player commands should be logged.
          */
         public boolean logPlayerCommands = true;
+
+        /**
+         * Whether commands executed by command blocks should be logged.
+         */
+        public boolean logCommandBlockCommands = true;
+
+        /**
+         * Whether commands executed by signs should be logged.
+         */
+        public boolean logSignCommands = true;
+
+
+        /**
+         * Whether to log the commands to server console.
+         */
+        public boolean logToConsole = true;
+
+
+        /**
+         * Whether to log the commands to online OPs.
+         */
+        public boolean logToOps = true;
+    }
+
+    public static class MessageConfig {
+
+        /**
+         * Message that is sent when command from command block is executed
+         */
+        public String commandBlockMessageStyle = "Command block in: ${dimension} at X: ${x} Y: ${y} Z: ${z} executed command: ${command}";
+
         /**
          * Message that is sent when player enters command
          */
         public String playerMessageStyle = "Player ${playername} (UUID: ${uuid}) used command: ${command}";
 
         /**
-         * Whether commands executed by command blocks should be logged
+         * Message that is sent when command from sign is executed
          */
-        public boolean logCommandBlockCommands = true;
-        /**
-         * Message that is sent when command from command block is executed
-         */
-        public String commandBlockMessageStyle = "Command block in: ${dimension} at X: ${x} Y: ${y} Z: ${z} executed command: ${command}";
+        public String signMessageStyle = "Sign in: ${dimension} at X: ${x} Y: ${y} Z: ${z} executed command: ${command}";
     }
 
-    public MainConfig main = new MainConfig();
+    public LogConfig logging = new LogConfig();
+    public MessageConfig messages = new MessageConfig();
     public ArrayList<String> blacklistedCommands = new ArrayList<>(Arrays.asList(
             "msg",
             "testCommandThatShouldNotBeLogged"

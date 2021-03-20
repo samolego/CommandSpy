@@ -4,8 +4,10 @@
   "package": "org.samo_lego.commandspy.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MixinCommandBlockExecutor",
     "MixinServerPlayNetworkHandler",
-    "MixinCommandBlockExecutor"
+    "ServerCommandSourceAccessor",
+    "SignBlockEntityMixin"
   ],
   "client": [],
   "injectors": {

@@ -33,12 +33,12 @@ public abstract class MixinServerPlayNetworkHandler {
 			)
 	)
 	private void onChatMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
-		boolean enabled = CommandSpy.config.main.logPlayerCommands;
+		boolean enabled = CommandSpy.config.logging.logPlayerCommands;
 		String command = packet.getChatMessage();
 
 		if(enabled && command.startsWith("/") && CommandSpy.shouldLog(command)) {
 			// Message style from config
-			String message = CommandSpy.config.main.playerMessageStyle;
+			String message = CommandSpy.config.messages.playerMessageStyle;
 
 			// Other info, later optionally appended to message
 			String playername = player.getEntityName();
@@ -51,7 +51,7 @@ public abstract class MixinServerPlayNetworkHandler {
 
 			StrSubstitutor sub = new StrSubstitutor(valuesMap);
 			// Logging to console
-			CommandSpy.LOGGER.info(sub.replace(message));
+			CommandSpy.logCommand(sub.replace(message), player.getCommandSource());
 		}
 	}
 }

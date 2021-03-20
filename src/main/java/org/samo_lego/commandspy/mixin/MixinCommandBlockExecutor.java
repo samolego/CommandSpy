@@ -25,12 +25,12 @@ public abstract class MixinCommandBlockExecutor {
     @Inject(method = "execute(Lnet/minecraft/world/World;)Z", at = @At(value = "RETURN"))
     private void execute(World world, CallbackInfoReturnable<Boolean> cir) {
         // Checking if mixin should be enabled todo
-        boolean enabled = CommandSpy.config.main.logCommandBlockCommands;
+        boolean enabled = CommandSpy.config.logging.logCommandBlockCommands;
         String command = this.getCommand();
 
         if(enabled && CommandSpy.shouldLog(command)) {
             // Getting message style from config
-            String message = CommandSpy.config.main.commandBlockMessageStyle;
+            String message = CommandSpy.config.messages.commandBlockMessageStyle;
 
             // Getting other info
             String dimension = world.getRegistryKey().getValue().toString();
@@ -48,10 +48,7 @@ public abstract class MixinCommandBlockExecutor {
             StrSubstitutor sub = new StrSubstitutor(valuesMap);
 
             // Logging to console
-            CommandSpy.LOGGER.info(sub.replace(message));
-
-            // Clearing the left-over map
-            valuesMap.clear();
+            CommandSpy.logCommand(sub.replace(message), ((CommandBlockExecutor) (Object) this).getSource());
         }
     }
 }
