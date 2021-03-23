@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.samo_lego.commandspy.CommandSpy.MODID;
 import static org.samo_lego.commandspy.CommandSpy.config;
 
 @Mixin(SignBlockEntity.class)
@@ -52,7 +53,7 @@ public class SignBlockEntityMixin {
             StrSubstitutor sub = new StrSubstitutor(valuesMap);
 
             // Logging to console
-            CommandSpy.logCommand(sub.replace(message), sign.getCommandSource((ServerPlayerEntity) player));
+            CommandSpy.logCommand(sub.replace(message), sign.getCommandSource((ServerPlayerEntity) player), MODID + ".log.signs");
         }
     }
 }

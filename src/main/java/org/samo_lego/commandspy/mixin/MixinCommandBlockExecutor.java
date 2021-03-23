@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.samo_lego.commandspy.CommandSpy.MODID;
+
 
 @Mixin(CommandBlockExecutor.class)
 public abstract class MixinCommandBlockExecutor {
@@ -48,7 +50,7 @@ public abstract class MixinCommandBlockExecutor {
             StrSubstitutor sub = new StrSubstitutor(valuesMap);
 
             // Logging to console
-            CommandSpy.logCommand(sub.replace(message), ((CommandBlockExecutor) (Object) this).getSource());
+            CommandSpy.logCommand(sub.replace(message), ((CommandBlockExecutor) (Object) this).getSource(), MODID + ".log.command_blocks");
         }
     }
 }

@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.samo_lego.commandspy.CommandSpy.MODID;
+
 @Mixin(ServerPlayNetworkHandler.class)
 public abstract class MixinServerPlayNetworkHandler {
 	@Shadow
@@ -51,7 +53,7 @@ public abstract class MixinServerPlayNetworkHandler {
 
 			StrSubstitutor sub = new StrSubstitutor(valuesMap);
 			// Logging to console
-			CommandSpy.logCommand(sub.replace(message), player.getCommandSource());
+			CommandSpy.logCommand(sub.replace(message), player.getCommandSource(), MODID + ".log.players");
 		}
 	}
 }
