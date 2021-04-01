@@ -29,7 +29,7 @@ public class CommandSpy implements ModInitializer {
 		// Loading config
 		config = SpyConfig.loadConfig(new File(configDirectory.toString() + "/CommandSpyConfig.json"));
 
-		luckpermsLoaded = FabricLoader.getInstance().isModLoaded("luckperms");
+		luckpermsLoaded = FabricLoader.getInstance().isModLoaded("fabric-permissions-api-v0");
 	}
 
 	/**
@@ -47,9 +47,9 @@ public class CommandSpy implements ModInitializer {
 
 	/**
 	 * Logs command to the console
-	 * @param command
-	 * @param src
-	 * @param permission
+	 * @param command command to log
+	 * @param src the command source
+	 * @param permission the permission to use if LuckPerms is loaded
 	 */
 	public static void logCommand(String command, ServerCommandSource src, String permission) {
 		if(config.logging.logToConsole)
