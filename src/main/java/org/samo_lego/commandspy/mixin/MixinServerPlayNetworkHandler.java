@@ -7,7 +7,6 @@ import org.apache.logging.log4j.core.lookup.StrSubstitutor;
 import org.samo_lego.commandspy.CommandSpy;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,9 +20,6 @@ import static org.samo_lego.commandspy.CommandSpy.MODID;
 public abstract class MixinServerPlayNetworkHandler {
 	@Shadow
 	public ServerPlayerEntity player;
-
-	@Unique
-	private final Map<String, String> valuesMap = new HashMap<>();
 
 	// Injection for player chatting
 	@Inject(
@@ -47,6 +43,7 @@ public abstract class MixinServerPlayNetworkHandler {
 			String uuid = player.getUuidAsString();
 
 			// Saving those to hashmap for fancy printing with logger
+			Map<String, String> valuesMap = new HashMap<>();
 			valuesMap.put("playername", playername);
 			valuesMap.put("uuid", uuid);
 			valuesMap.put("command", command);
