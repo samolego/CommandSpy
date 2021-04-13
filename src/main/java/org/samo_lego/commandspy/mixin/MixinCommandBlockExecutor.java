@@ -42,7 +42,7 @@ public abstract class MixinCommandBlockExecutor {
 
             // Saving those to hashmap for fancy printing with logger
             Map<String, String> valuesMap = new HashMap<>();
-            valuesMap.put("dimension", String.valueOf(dimension));
+            valuesMap.put("dimension", dimension);
             valuesMap.put("command", command);
             valuesMap.put("x", String.valueOf(x));
             valuesMap.put("y", String.valueOf(y));
