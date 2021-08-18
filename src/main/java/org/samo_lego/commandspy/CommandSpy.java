@@ -58,7 +58,7 @@ public class CommandSpy implements ModInitializer {
 		MutableText cmd = new LiteralText(command).formatted(Formatting.GRAY);
 		if(luckpermsLoaded)
 			// LuckPerms is loaded, so we will make additional permission check
-			src.getMinecraftServer().getPlayerManager().getPlayerList().forEach(player -> {
+			src.getServer().getPlayerManager().getPlayerList().forEach(player -> {
 				if(PermissionHelper.checkPermission(player, permission))
 					player.sendMessage(cmd, false);
 			});

@@ -23,14 +23,15 @@ import static org.samo_lego.commandspy.CommandSpy.config;
 @Mixin(SignBlockEntity.class)
 public class SignBlockEntityMixin {
     @Inject(
-            method = "onActivate(Lnet/minecraft/entity/player/PlayerEntity;)Z",
+            method = "onActivate(Lnet/minecraft/server/network/ServerPlayerEntity;)Z",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/server/command/CommandManager;execute(Lnet/minecraft/server/command/ServerCommandSource;Ljava/lang/String;)I"
             ),
             locals = LocalCapture.CAPTURE_FAILHARD
+
     )
-    private void catchSignCommand(PlayerEntity player, CallbackInfoReturnable<Boolean> cir, Text[] texts, int i, int j, Style style, ClickEvent clickEvent) {
+    private void catchSignCommand(ServerPlayerEntity player, CallbackInfoReturnable<Boolean> cir, Text[] texts, int i, int j, Text text, Style style,  ClickEvent clickEvent) {
         if(config.logging.logSignCommands) {
             SignBlockEntity sign = (SignBlockEntity) (Object) this;
 
