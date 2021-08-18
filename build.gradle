@@ -1,7 +1,12 @@
+import com.modrinth.minotaur.TaskModrinthUpload
+
 plugins {
-	id 'fabric-loom' version '0.9-SNAPSHOT'
+	id 'fabric-loom' version '0.8-SNAPSHOT'
 	id 'maven-publish'
+	id "com.matthewprenger.cursegradle" version "1.4.0"
+	id "com.modrinth.minotaur" version "1.1.0"
 }
+
 repositories {
 	maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
@@ -29,6 +34,8 @@ processResources {
 		expand "version": project.version
 	}
 }
+
+def ENV = System.getenv()
 
 tasks.withType(JavaCompile).configureEach {
 	// ensure that the encoding is set to UTF-8, no matter what the system default is
@@ -75,4 +82,50 @@ publishing {
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
 	}
+}
+
+
+// from FAPI https://github.com/FabricMC/fabric/blob/1.16/build.gradle
+curseforge {
+	if (ENV.CURSEFORGE_API_KEY) {
+		apiKey = ENV.CURSEFORGE_API_KEY
+	}
+
+	project {
+		id = "366500"
+		changelog = "A changelog can be found at https://github.com/samolego/CommandSpy/releases/latest"
+		releaseType = "release"
+		addGameVersion "${project.minecraft_version}"
+		addGameVersion "Fabric"
+
+		mainArtifact(file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar")) {
+			displayName = "[${project.minecraft_version}] CommandSpy ${version}"
+		}
+
+		afterEvaluate {
+			uploadTask.dependsOn("remapJar")
+		}
+	}
+
+	options {
+		forgeGradleIntegration = false
+	}
+}
+
+task modrinth(type: TaskModrinthUpload, dependsOn: remapJar) {
+	onlyIf {
+		ENV.MODRINTH_TOKEN
+	}
+
+	token = ENV.MODRINTH_TOKEN
+	projectId = "4XnUc5Gr"
+	changelog = "A changelog can be found at https://github.com/samolego/CommandSpy/releases/latest"
+	versionNumber = version
+	versionName = "[${project.minecraft_version}] CommandSpy ${version}"
+	releaseType = "release"
+
+	uploadFile = file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar")
+
+	addGameVersion("${project.minecraft_version}")
+	addLoader('fabric')
 }
