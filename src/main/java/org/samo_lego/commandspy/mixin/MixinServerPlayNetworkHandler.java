@@ -23,7 +23,7 @@ public abstract class MixinServerPlayNetworkHandler {
 
 	// Injection for player chatting
 	@Inject(
-			method = "onGameMessage(Lnet/minecraft/network/packet/c2s/play/ChatMessageC2SPacket;)V",
+			method = "onChatMessage(Lnet/minecraft/network/packet/c2s/play/ChatMessageC2SPacket;)V",
 			at = @At(
 				value = "INVOKE",
 				target = "net/minecraft/network/NetworkThreadUtils.forceMainThread(Lnet/minecraft/network/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/server/world/ServerWorld;)V",
@@ -47,7 +47,7 @@ public abstract class MixinServerPlayNetworkHandler {
 			valuesMap.put("playername", playername);
 			valuesMap.put("uuid", uuid);
 			valuesMap.put("command", command);
-			valuesMap.put("dimension", this.player.getServerWorld().getRegistryKey().getValue().toString());
+			valuesMap.put("dimension", this.player.getWorld().getRegistryKey().getValue().toString());
 
 			StrSubstitutor sub = new StrSubstitutor(valuesMap);
 			// Logging to console

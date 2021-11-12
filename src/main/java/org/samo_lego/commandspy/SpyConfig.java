@@ -15,6 +15,7 @@ import java.util.Arrays;
 public class SpyConfig {
 
     public static class LogConfig {
+
         /**
          * Whether player commands should be logged.
          */
@@ -65,6 +66,7 @@ public class SpyConfig {
     public MessageConfig messages = new MessageConfig();
     public ArrayList<String> blacklistedCommands = new ArrayList<>(Arrays.asList(
             "msg",
+            "w",
             "testCommandThatShouldNotBeLogged"
     ));
 
