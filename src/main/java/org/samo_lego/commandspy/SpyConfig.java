@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SpyConfig {
 
@@ -64,7 +65,7 @@ public class SpyConfig {
 
     public LogConfig logging = new LogConfig();
     public MessageConfig messages = new MessageConfig();
-    public ArrayList<String> blacklistedCommands = new ArrayList<>(Arrays.asList(
+    public List<String> blacklistedCommands = new ArrayList<>(Arrays.asList(
             "msg",
             "w",
             "testCommandThatShouldNotBeLogged"
@@ -76,6 +77,7 @@ public class SpyConfig {
     // GSON initializing with nice printing options :P
     private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
+            .disableHtmlEscaping()
             .create();
 
     /**
