@@ -1,7 +1,7 @@
 package org.samo_lego.commandspy.permission;
 
 import me.lucko.fabric.api.permissions.v0.Permissions;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 
 /**
  * Permission checker.
@@ -19,7 +19,7 @@ public class PermissionHelper {
      * @param permission
      * @return
      */
-    public static boolean checkPermission(ServerPlayerEntity player, String permission) {
+    public static boolean checkPermission(ServerPlayer player, String permission) {
         return Permissions.check(player, permission, false);
     }
 }

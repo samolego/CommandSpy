@@ -1,8 +1,8 @@
 package org.samo_lego.commandspy.mixin;
 
-import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.apache.logging.log4j.core.lookup.StrSubstitutor;
 import org.samo_lego.commandspy.CommandSpy;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,42 +16,41 @@ import java.util.Map;
 
 import static org.samo_lego.commandspy.CommandSpy.MODID;
 
-@Mixin(ServerPlayNetworkHandler.class)
+@Mixin(ServerGamePacketListenerImpl.class)
 public abstract class MixinServerPlayNetworkHandler {
 	@Shadow
-	public ServerPlayerEntity player;
+	public ServerPlayer player;
 
 	// Injection for player chatting
 	@Inject(
-			method = "onChatMessage(Lnet/minecraft/network/packet/c2s/play/ChatMessageC2SPacket;)V",
+			method = "handleChatCommand",
 			at = @At(
 				value = "INVOKE",
-				target = "net/minecraft/network/NetworkThreadUtils.forceMainThread(Lnet/minecraft/network/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/server/world/ServerWorld;)V",
-				shift = At.Shift.AFTER
+				target = "Lnet/minecraft/server/level/ServerPlayer;createCommandSourceStack()Lnet/minecraft/commands/CommandSourceStack;"
 			)
 	)
-	private void onChatMessage(ChatMessageC2SPacket packet, CallbackInfo ci) {
+	private void onChatMessage(ServerboundChatCommandPacket packet, CallbackInfo ci) {
 		boolean enabled = CommandSpy.config.logging.logPlayerCommands;
-		String command = packet.getChatMessage();
+		String command = packet.command();
 
-		if(enabled && command.startsWith("/") && CommandSpy.shouldLog(command)) {
+		if(enabled && CommandSpy.shouldLog(command)) {
 			// Message style from config
 			String message = CommandSpy.config.messages.playerMessageStyle;
 
 			// Other info, later optionally appended to message
-			String playername = player.getEntityName();
-			String uuid = player.getUuidAsString();
+			String playername = player.getScoreboardName();
+			String uuid = player.getStringUUID();
 
 			// Saving those to hashmap for fancy printing with logger
 			Map<String, String> valuesMap = new HashMap<>();
 			valuesMap.put("playername", playername);
 			valuesMap.put("uuid", uuid);
 			valuesMap.put("command", command);
-			valuesMap.put("dimension", this.player.getWorld().getRegistryKey().getValue().toString());
+			valuesMap.put("dimension", this.player.getLevel().dimension().location().toString());
 
 			StrSubstitutor sub = new StrSubstitutor(valuesMap);
 			// Logging to console
-			CommandSpy.logCommand(sub.replace(message), player.getCommandSource(), MODID + ".log.players");
+			CommandSpy.logCommand(sub.replace(message), player.createCommandSourceStack(), MODID + ".log.players");
 		}
 	}
 }

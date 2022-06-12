@@ -1,12 +1,12 @@
 package org.samo_lego.commandspy.mixin;
 
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(ServerCommandSource.class)
+@Mixin(CommandSourceStack.class)
 public interface ServerCommandSourceAccessor {
-    @Invoker("sendToOps")
-    void logCommandToOps(Text command);
+    @Invoker("broadcastToAdmins")
+    void logCommandToOps(Component command);
 }

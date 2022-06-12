@@ -2,10 +2,10 @@ package org.samo_lego.commandspy;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.samo_lego.commandspy.mixin.ServerCommandSourceAccessor;
@@ -51,19 +51,20 @@ public class CommandSpy implements ModInitializer {
 	 * @param src the command source
 	 * @param permission the permission to use if LuckPerms is loaded
 	 */
-	public static void logCommand(String command, ServerCommandSource src, String permission) {
+	public static void logCommand(String command, CommandSourceStack src, String permission) {
 		if(config.logging.logToConsole)
 			LOGGER.info(command);
 
-		MutableText cmd = new LiteralText(command).formatted(Formatting.GRAY);
-		if(luckpermsLoaded)
+		MutableComponent cmd = Component.literal(command).withStyle(ChatFormatting.GRAY);
+		if(luckpermsLoaded) {
 			// LuckPerms is loaded, so we will make additional permission check
-			src.getServer().getPlayerManager().getPlayerList().forEach(player -> {
+			src.getServer().getPlayerList().getPlayers().forEach(player -> {
 				if(PermissionHelper.checkPermission(player, permission))
-					player.sendMessage(cmd, false);
+					player.displayClientMessage(cmd, false);
 			});
-		else if(config.logging.logToOps)
+		} else if(config.logging.logToOps) {
 			// Vanilla way - all ops get message
 			((ServerCommandSourceAccessor) src).logCommandToOps(cmd);
+		}
 	}
 }
