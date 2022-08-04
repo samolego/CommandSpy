@@ -26,7 +26,7 @@ public abstract class MixinServerPlayNetworkHandler {
 			method = "handleChatCommand",
 			at = @At(
 				value = "INVOKE",
-				target = "Lnet/minecraft/server/level/ServerPlayer;createCommandSourceStack()Lnet/minecraft/commands/CommandSourceStack;"
+				target = "Lnet/minecraft/server/MinecraftServer;submit(Ljava/lang/Runnable;)Ljava/util/concurrent/CompletableFuture;"
 			)
 	)
 	private void onChatMessage(ServerboundChatCommandPacket packet, CallbackInfo ci) {
