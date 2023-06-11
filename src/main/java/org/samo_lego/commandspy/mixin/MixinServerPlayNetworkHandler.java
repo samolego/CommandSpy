@@ -46,7 +46,7 @@ public abstract class MixinServerPlayNetworkHandler {
 			valuesMap.put("playername", playername);
 			valuesMap.put("uuid", uuid);
 			valuesMap.put("command", command);
-			valuesMap.put("dimension", this.player.getLevel().dimension().location().toString());
+			valuesMap.put("dimension", this.player.level().dimension().location().toString());
 
 			StrSubstitutor sub = new StrSubstitutor(valuesMap);
 			// Logging to console

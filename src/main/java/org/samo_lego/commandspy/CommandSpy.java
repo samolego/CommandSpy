@@ -52,17 +52,19 @@ public class CommandSpy implements ModInitializer {
 	 * @param permission the permission to use if LuckPerms is loaded
 	 */
 	public static void logCommand(String command, CommandSourceStack src, String permission) {
-		if(config.logging.logToConsole)
+		if (config.logging.logToConsole) {
 			LOGGER.info(command);
+		}
 
 		MutableComponent cmd = Component.literal(command).withStyle(ChatFormatting.GRAY);
-		if(luckpermsLoaded) {
+		if (luckpermsLoaded) {
 			// LuckPerms is loaded, so we will make additional permission check
 			src.getServer().getPlayerList().getPlayers().forEach(player -> {
-				if(PermissionHelper.checkPermission(player, permission))
+				if (PermissionHelper.checkPermission(player, permission)) {
 					player.displayClientMessage(cmd, false);
+				}
 			});
-		} else if(config.logging.logToOps) {
+		} else if (config.logging.logToOps) {
 			// Vanilla way - all ops get message
 			((ServerCommandSourceAccessor) src).logCommandToOps(cmd);
 		}
